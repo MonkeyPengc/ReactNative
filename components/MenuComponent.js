@@ -19,28 +19,28 @@ class Menu extends Component {
     render() {
         const { navigate } = this.props.navigation;
 
-        const renderMenuItem = ({item, index}) => {
+        const renderMenuItem = ({ item, index }) => {
             return (
-                    <ListItem
-                        key={index}
-                        title={item.name}
-                        subtitle={item.description}
-                        hideChevron={true}
-                        onPress={() => navigate('Dishdetail', { dishId: item.id })}
-                        leftAvatar={{ source: require('./images/uthappizza.png')}}
-                      />
+                <ListItem
+                    key={index}
+                    title={item.name}
+                    subtitle={item.description}
+                    hideChevron={true}
+                    onPress={() => navigate('Dishdetail', { dishId: item.id })}
+                    leftAvatar={{ source: require('./images/uthappizza.png') }}
+                />
             );
         };
 
         return (
-            <FlatList 
+            <FlatList
                 data={this.state.dishes}
                 renderItem={renderMenuItem}
                 keyExtractor={item => item.id.toString()}
-                />
+            />
         );
     }
-    
+
 }
 
 
