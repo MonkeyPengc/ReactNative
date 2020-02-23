@@ -6,9 +6,9 @@ import { Card } from 'react-native-elements';
 function RenderContactInfo() {
     return (
         <Card
-            featuredTitle="Contact Information"
+            title="Contact Information"
         >
-            <Text style={{margin: 10}}>
+            <Text style={{ margin: 10 }}>
                 121, Clear Water Bay Road
                 Clear Water Bay, Kowloon
                 HONG KONG
@@ -30,10 +30,10 @@ class Contact extends Component {
     };
 
     render() {
-        return(<RenderContactInfo />);
+        return (<RenderContactInfo />);
     }
 
-    
+
 }
 
 export default Contact;

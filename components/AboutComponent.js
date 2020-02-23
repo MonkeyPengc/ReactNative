@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Text, View, FlatList } from 'react-native';
+import { Card, ListItem } from 'react-native-elements';
 import { LEADERS } from '../shared/leaders';
 
 
 function History() {
     return (
         <Card
-            featuredTitle="Our History"
+            title="Our History"
         >
             <Text style={{ margin: 10 }}>
                 Started in 2010, Ristorante con Fusion quickly established itself as a culinary icon par excellence in Hong Kong.
@@ -28,22 +28,23 @@ function Leadership(props) {
                 title={item.name}
                 subtitle={item.description}
                 hideChevron={true}
-                leftAvatar={{ source: require(item.image) }}
+                leftAvatar={{ source: require('./images/alberto.png') }}
             />
         );
     };
 
+    const leaders = props.leaders;
+    console.log(leaders);
+
     return (
         <Card
-            featuredTitle="Corporate Leadership"
+            title="Corporate Leadership"
         >
-            <Text style={{ margin: 10 }}>
-                <FlatList
-                    data={props.leaders}
-                    renderItem={renderLeader}
-                    keyExtractor={item => item.id.toString()}
-                />
-            </Text>
+            <FlatList
+                data={leaders}
+                renderItem={renderLeader}
+                keyExtractor={item => item.id.toString()}
+            />
         </Card>
     );
 }
@@ -62,7 +63,7 @@ class About extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
                 <History />
                 <Leadership leaders={this.state.leaders} />
             </View>
