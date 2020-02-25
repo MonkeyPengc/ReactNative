@@ -34,7 +34,6 @@ function Leadership(props) {
     };
 
     const leaders = props.leaders;
-    console.log(leaders);
 
     return (
         <Card
