@@ -3,6 +3,7 @@ import { Text, View, FlatList } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
 
 
 const mapStateToProps = state => {
@@ -62,12 +63,36 @@ class About extends Component {
     };
 
     render() {
-        return (
-            <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
-                <History />
-                <Leadership leaders={this.props.leaders.leaders} />
-            </View>
-        );
+        if (this.props.leaders.isLoading) {
+            return (
+                <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+                    <History />
+                    <Card title='Corporate Leadership'>
+                        <Loading />
+                    </Card>
+                </View>
+            );
+        }
+
+        else if (this.props.leaders.errMess) {
+            return (
+                <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+                    <History />
+                    <Card title='Corporate Leadership'>
+                        <Text>{this.props.leaders.errMess}</Text>
+                    </Card>
+                </View>
+            );
+        }
+
+        else {
+            return (
+                <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+                    <History />
+                    <Leadership leaders={this.props.leaders.leaders} />
+                </View>
+            );
+        }
     }
 
 
