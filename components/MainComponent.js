@@ -12,11 +12,20 @@ import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/actionCreators';
 
 
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
-  fetchDishes: () => dispatch(fetchDishes),
-  fetchComments: () => dispatch(fetchComments),
-  fetchPromos: () => dispatch(fetchPromos),
-  fetchLeaders: () => dispatch(fetchLeaders)
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchComments: () => dispatch(fetchComments()),
+  fetchPromos: () => dispatch(fetchPromos()),
+  fetchLeaders: () => dispatch(fetchLeaders())
 })
 
 const MenuNavigator = createStackNavigator({
@@ -96,7 +105,7 @@ const ContactNavigator = createStackNavigator({
 );
 
 const ReservationNavigator = createStackNavigator({
-  Contact: { screen: Contact }
+  Reservation: { screen: Reservation }
 },
   {
     initialRouteName: 'Reservation',
@@ -182,7 +191,7 @@ const MainNavigator = createDrawerNavigator({
       title: 'Reserve Table',
       drawerLabel: 'Reserve Table',
       drawerIcon: ({ tintColor }) => (
-        <Icon name='cultery' type='font-awesome' size={24} color={tintColor} />
+        <Icon name='cutlery' type='font-awesome' size={24} color={tintColor} />
       )
     }
   }
@@ -203,7 +212,7 @@ class Main extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+      <View style={{ flex: 1 }}>
         <MainNavigator />
       </View>
     );
@@ -233,4 +242,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect(mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

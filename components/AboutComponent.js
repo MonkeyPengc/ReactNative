@@ -65,7 +65,7 @@ class About extends Component {
     render() {
         if (this.props.leaders.isLoading) {
             return (
-                <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+                <View style={{ flex: 1 }}>
                     <History />
                     <Card title='Corporate Leadership'>
                         <Loading />
@@ -76,7 +76,7 @@ class About extends Component {
 
         else if (this.props.leaders.errMess) {
             return (
-                <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+                <View style={{ flex: 1 }}>
                     <History />
                     <Card title='Corporate Leadership'>
                         <Text>{this.props.leaders.errMess}</Text>
@@ -87,7 +87,7 @@ class About extends Component {
 
         else {
             return (
-                <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+                <View style={{ flex: 1 }}>
                     <History />
                     <Leadership leaders={this.props.leaders.leaders} />
                 </View>

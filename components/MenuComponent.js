@@ -30,8 +30,8 @@ class Menu extends Component {
                     caption={item.description}
                     featured
                     onPress={() => navigate('Dishdetail', { dishId: item.id })}
-                    imageSrc={{ uri: baseUrl + item.image }}
-                />
+                    imageSrc={{ uri: baseUrl + item.image}}
+                    />
             );
         };
 
@@ -49,11 +49,11 @@ class Menu extends Component {
         }
         else {
             return (
-                <FlatList
+                <FlatList 
                     data={this.props.dishes.dishes}
                     renderItem={renderMenuItem}
                     keyExtractor={item => item.id.toString()}
-                />
+                    />
             );
         }
     }
