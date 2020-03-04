@@ -4,6 +4,7 @@ import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+import * as Animatable from 'react-native-animatable';
 
 
 const mapStateToProps = state => {
@@ -77,26 +78,29 @@ class About extends Component {
 
         else if (this.props.leaders.errMess) {
             return (
-                <View style={{ flex: 1 }}>
-                    <History />
-                    <Card title='Corporate Leadership'>
-                        <Text>{this.props.leaders.errMess}</Text>
-                    </Card>
+                <View>
+                    <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+                        <History />
+                        <Card
+                            title='Corporate Leadership'>
+                            <Text>{this.props.leaders.errMess}</Text>
+                        </Card>
+                    </Animatable.View>
                 </View>
             );
         }
 
         else {
             return (
-                <View style={{ flex: 1 }}>
-                    <History />
-                    <Leadership leaders={this.props.leaders.leaders} />
+                <View>
+                    <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+                        <History />
+                        <Leadership leaders={this.props.leaders.leaders} />
+                    </Animatable.View>
                 </View>
             );
         }
     }
-
-
 }
 
 export default connect(mapStateToProps)(About);

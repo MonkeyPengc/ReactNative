@@ -137,7 +137,7 @@ const FavoritesNavigator = createStackNavigator({
       headerTintColor: "#fff",
       headerLeft: <Icon name="menu" size={24}
         iconStyle={{ color: 'white' }}
-        onPress={() => navigation.navigate('DrawerToggle')} />
+        onPress={() => navigation.toggleDrawer()} />
     })
   })
 
@@ -220,7 +220,7 @@ const MainNavigator = createDrawerNavigator({
     navigationOptions: {
       title: 'My Favorites',
       drawerLabel: 'My Favorites',
-      drawerIcon: ({ tintColor, focused }) => (
+      drawerIcon: ({ tintColor }) => (
         <Icon
           name='heart'
           type='font-awesome'
