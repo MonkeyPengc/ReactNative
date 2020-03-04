@@ -5,7 +5,8 @@ import Home from './HomeComponent';
 import About from './AboutComponent';
 import Contact from './ContactComponent';
 import Reservation from './ReservationComponent';
-import { View, Platform, Image, StyleSheet, ScrollView, Text} from 'react-native';
+import Favorites from './FavoriteComponent';
+import { View, Platform, Image, StyleSheet, ScrollView, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { createStackNavigator, createDrawerNavigator, DrawerItems, SafeAreaView } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -29,11 +30,12 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const MenuNavigator = createStackNavigator({
-  Menu: { screen: Menu,
+  Menu: {
+    screen: Menu,
     navigationOptions: ({ navigation }) => ({
       headerLeft: <Icon name='menu' size={24} color='white' onPress={() => navigation.toggleDrawer()} />
     })
-   },
+  },
   Dishdetail: { screen: Dishdetail }
 },
   {
@@ -122,14 +124,31 @@ const ReservationNavigator = createStackNavigator({
   }
 );
 
+const FavoritesNavigator = createStackNavigator({
+  Favorites: { screen: Favorites }
+}, {
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: "#512DA8"
+      },
+      headerTitleStyle: {
+        color: "#fff"
+      },
+      headerTintColor: "#fff",
+      headerLeft: <Icon name="menu" size={24}
+        iconStyle={{ color: 'white' }}
+        onPress={() => navigation.navigate('DrawerToggle')} />
+    })
+  })
+
 const CustomDrawerContentComponent = (props) => (
   <ScrollView>
     <SafeAreaView style={StyleSheet.container} forceInset={{ top: 'always', horizontal: 'never' }}>
       <View style={styles.drawerHeader}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <Image source={require('./images/logo.png')} style={styles.drawerImage} />
         </View>
-        <View style={{flex: 2}}>
+        <View style={{ flex: 2 }}>
           <Text style={styles.drawerHeaderText}>Ristorante Con Fusion</Text>
         </View>
       </View>
@@ -193,6 +212,22 @@ const MainNavigator = createDrawerNavigator({
       drawerIcon: ({ tintColor }) => (
         <Icon name='cutlery' type='font-awesome' size={24} color={tintColor} />
       )
+    }
+  },
+  Favorites:
+  {
+    screen: FavoritesNavigator,
+    navigationOptions: {
+      title: 'My Favorites',
+      drawerLabel: 'My Favorites',
+      drawerIcon: ({ tintColor, focused }) => (
+        <Icon
+          name='heart'
+          type='font-awesome'
+          size={24}
+          iconStyle={{ color: tintColor }}
+        />
+      ),
     }
   }
 }, {
