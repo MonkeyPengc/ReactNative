@@ -24,11 +24,19 @@ function RenderDish(props) {
 
     const dish = props.dish;
 
-    var viewRef
+    var viewRef;
     const handleViewRef = ref => viewRef = ref;
 
     const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
-        if ( dx < -200 ) {
+        if (dx < -200) {
+            return true;
+        }
+        else
+            return false;
+    };
+
+    const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+        if (dx > 200) {
             return true;
         }
         else
@@ -44,24 +52,27 @@ function RenderDish(props) {
                 .then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));
         },
         onPanResponderEnd: (e, gestureState) => {
-            if (recognizeDrag(gestureState)) {
+            if (recognizeDrag(gestureState))
                 Alert.alert(
                     'Add to Favorites?',
                     'Are you sure you wish to add ' + dish.name + ' to your favorites?',
-                [
-                    {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel pressed'),
-                        style: 'cancel'
-                    },
-                    {
-                        text: 'OK',
-                        onPress: () => props.favorite ? console.log('Already favorite') : props.onFavorite()
-                    }
-                ],
-                { cancelable: false }
+                    [
+                        {
+                            text: 'Cancel',
+                            onPress: () => console.log('Cancel pressed'),
+                            style: 'cancel'
+                        },
+                        {
+                            text: 'OK',
+                            onPress: () => props.favorite ? console.log('Already favorite') : props.onFavorite()
+                        }
+                    ],
+                    { cancelable: false }
                 );
-            };
+
+            if (recognizeComment(gestureState))
+                props.onComment();
+
             return true;
         }
     });
