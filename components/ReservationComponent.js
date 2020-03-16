@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Modal, Alert } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
+import Notifications from 'expo';
+import * as Permissions from 'expo-permissions';
+import * as Calendar from 'expo-calendar';
 
 
 class Reservation extends Component {
@@ -39,11 +42,19 @@ class Reservation extends Component {
                 },
                 {
                     text: 'OK',
-                    onPress: () => this.resetForm()
+                    onPress: () => {
+                        this.confirmReservation(this.state.date);
+                    }
                 }
             ],
             { cancelable: false }
         );
+    }
+
+    confirmReservation(date) {
+        Reservation.presentLocalNotification(date);
+        Reservation.addReservationToCalendar(date);
+        this.resetForm();
     }
 
     resetForm() {
@@ -52,6 +63,62 @@ class Reservation extends Component {
             smoking: false,
             date: ''
         });
+    }
+
+    async obtainNotificationPermission() {
+        let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if (permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to show notifications');
+            }
+        }
+        return permission;
+    }
+
+    async presentLocalNotification(date) {
+        await this.obtainNotificationPermission();
+        Notifications.presentLocalNotificationAsync({
+            title: 'Your Reservation',
+            body: 'Reservation for ' + date + ' requested',
+            ios: {
+                sound: true,
+                _displayInForeground: true
+            },
+            android: {
+                sound: true,
+                vibrate: true,
+                color: '#512DA8'
+            }
+        });
+    }
+
+    static async obtainCalendarPermission() {
+        let permission = await Permissions.getAsync(Permissions.CALENDAR);
+        if (permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.CALENDAR);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to access the calendar');
+            }
+        }
+        return permission;
+    }
+
+    static async addReservationToCalendar(date) {
+        await Reservation.obtainCalendarPermission();
+        const startDate = new Date(Date.parse(date));
+        const endDate = new Date(Date.parse(date) + (2 * 60 * 60 * 1000));
+        Calendar.createEventAsync(
+            Calendar.DEFAULT,
+            {
+                title: 'Con Fusion Table Reservation',
+                location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong',
+                startDate,
+                endDate,
+                timeZone: 'Asia/Hong_Kong',
+            },
+        );
+        Alert.alert('Reservation has been added to your calendar');
     }
 
     render() {
